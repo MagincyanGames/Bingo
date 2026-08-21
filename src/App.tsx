@@ -95,23 +95,27 @@ function App() {
           {randomNumber}
         </div>
       </div>}
-      {(isMd || (!isMd && module === 'TABLE')) && <div className='grid grid-cols-10 text-ctp-text gap-2 md:gap-4 bg-ctp-mantle p-3 md:p-6 rounded-2xl md:rounded-4xl w-full md:w-200 h-[60%] md:h-full'>
-        {Array.from({ length: 90 }, (_, index) => index)
-          .map((i) =>
-            <div key={i} className={
-              `flex rounded-full text-sm md:text-xl select-none shrink-0
-              ${numbers.includes(i + 1)
-                ? 'bg-ctp-surface0/30 text-ctp-subtext0/25'
-                : 'bg-ctp-surface0 text-ctp-text'
-              }
-              ${randomNumber === i + 1 && state === 'SHOW'
-                ? 'border-2 md:border-3 border-ctp-lavender'
-                : ''}
-              leading-none w-7 md:w-16 h-7 md:h-16 justify-center items-center font-bold`
-            }>{i + 1}</div>
-          )}
-      </div>}
-      {(isMd || (!isMd && module === 'HISTORY')) && <div className='flex flex-col bg-ctp-mantle p-9 rounded-4xl  md:h-full w-40 overflow-y-auto gap-4 items-center'>
+      {(isMd || (!isMd && module === 'TABLE')) && (
+        <div className='flex items-center justify-center w-full md:w-200 h-[60%] md:h-full @container-[size]'>
+          <div
+            className='grid grid-cols-10 grid-rows-9 gap-2 md:gap-4 bg-ctp-mantle p-3 md:p-6 rounded-2xl md:rounded-4xl'
+            style={{
+              width: 'min(100cqw, calc(100cqh * 10 / 9))',
+              height: 'min(100cqh, calc(100cqw * 9 / 10))',
+            }}
+          >
+            {Array.from({ length: 90 }, (_, index) => index).map((i) => (
+              <div
+                key={i}
+                className={`flex rounded-full text-sm md:text-xl select-none leading-none justify-center items-center font-bold ${numbers.includes(i + 1) ? 'bg-ctp-surface0/30 text-ctp-subtext0/25' : 'bg-ctp-surface0 text-ctp-text'
+                  } ${randomNumber === i + 1 && state === 'SHOW' ? 'border-2 md:border-3 border-ctp-lavender' : ''}`}
+              >
+                {i + 1}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}      {(isMd || (!isMd && module === 'HISTORY')) && <div className='flex flex-col bg-ctp-mantle p-9 rounded-4xl  md:h-full w-40 overflow-y-auto gap-4 items-center'>
         {history.map(e => <div
           className={`
             flex rounded-full text-ctp-subtext0 shrink-0 w-14 h-14 text-xl bg-ctp-surface0 leading-none justify-center items-center font-bold
