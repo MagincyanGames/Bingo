@@ -7,6 +7,7 @@ function App() {
   const [randomNumber, setRandomNumber] = useState<number | string>('!');
   const [state, setState] = useState<State>('IDLE');
 
+  // TODO: Delete Hack
   const hack = true;
   const hackNums = useRef<number[]>([1, 9, 20, 27, 32, 43, 45, 50, 51, 53, 60, 61, 74, 84, 86]);
 
@@ -72,6 +73,7 @@ function App() {
 
   return (
     <div className="bg-ctp-base flex flex-row justify-center items-center p-8 gap-20 w-full h-full min-h-screen">
+      <div className="absolute text-md font-mono text-ctp-subtext0 right-4 bottom-2">v{__APP_VERSION__}</div>
       <div className='flex flex-col gap-8 items-center'>
         <h1 className='text-ctp-lavender text-6xl font-bold'>BINGO</h1>
         <div className={`
