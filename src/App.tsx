@@ -61,7 +61,7 @@ function App() {
         clearInterval(int);
         selectRandomNumber(true);
         setState('SHOW');
-      }, 10);
+      }, 2000);
 
       return () => {
         clearInterval(int);
