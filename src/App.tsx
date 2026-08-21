@@ -47,7 +47,7 @@ function App() {
   }, []);
 
   function onKeyPress(ev: KeyboardEvent) {
-    if (ev.code === 'Space' && state !== 'PLAYING')
+    if ((ev.code === 'Space' || ev.code === 'Enter' || ev.code.startsWith('Digit')) && state !== 'PLAYING')
       setState('PLAYING');
   }
 
@@ -77,10 +77,10 @@ function App() {
 
   return (
     <div className="bg-ctp-base flex flex-col md:flex-row justify-center items-center p-2 md:p-8 gap-20 w-full h-dvh">
-      <div className="absolute text-md font-mono text-ctp-subtext0 right-4 bottom-2">v{__APP_VERSION__}</div>
+      <div className="absolute text-md font-mono text-ctp-subtext0 right-4 bottom-2 select-none">v{__APP_VERSION__}</div>
       {(isMd || (!isMd && module === 'BALL')) && <div className='flex flex-col gap-8 items-center'>
         <h1 className='text-ctp-lavender text-5xl md:text-6xl font-bold'>BINGO</h1>
-        <div className={`
+        <button className={`
       flex w-30 md:w-40 h-30 md:h-40 bg-ctp-surface0 rounded-full leading-none text-6xl font-bold text-ctp-lavender justify-center items-center
       cursor-pointer hover:bg-ctp-surface1 border-4 select-none
       ${state === 'IDLE'
@@ -93,12 +93,12 @@ function App() {
               setState('PLAYING')
           }}>
           {randomNumber}
-        </div>
+        </button>
       </div>}
       {(isMd || (!isMd && module === 'TABLE')) && (
-        <div className='flex items-center justify-center w-full md:w-200 h-[60%] md:h-full @container-[size]'>
+        <div className='flex items-center justify-center w-full md:w-200 h-[97%] @container-[size] bg-ctp-mantle rounded-2xl md:rounded-4xl'>
           <div
-            className='grid grid-cols-10 grid-rows-9 gap-2 md:gap-4 bg-ctp-mantle p-3 md:p-6 rounded-2xl md:rounded-4xl'
+            className='grid grid-cols-10 grid-rows-9 gap-2 md:gap-4 p-3 md:p-6 h-full'
             style={{
               width: 'min(100cqw, calc(100cqh * 10 / 9))',
               height: 'min(100cqh, calc(100cqw * 9 / 10))',
@@ -115,10 +115,13 @@ function App() {
             ))}
           </div>
         </div>
-      )}      {(isMd || (!isMd && module === 'HISTORY')) && <div className='flex flex-col bg-ctp-mantle p-9 rounded-4xl  md:h-full w-40 overflow-y-auto gap-4 items-center'>
+      )}
+      {(isMd || (!isMd && module === 'HISTORY')) && <div className='grid grid-cols-2 justify-center content-start justify-items-center bg-ctp-mantle p-9 rounded-4xl h-[97%] w-50 overflow-y-auto gap-4 '>
         {history.map(e => <div
           className={`
-            flex rounded-full text-ctp-subtext0 shrink-0 w-14 h-14 text-xl bg-ctp-surface0 leading-none justify-center items-center font-bold
+            flex rounded-full text-ctp-subtext0 shrink-0 w-14 h-14 
+            text-xl bg-ctp-surface0 leading-none justify-center items-center font-bold
+            select-none
               ${randomNumber === e && state === 'SHOW'
               ? 'border-3 border-ctp-lavender'
               : ''}

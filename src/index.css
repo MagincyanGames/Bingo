@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "@catppuccin/tailwindcss/frappe";
 
+
 :root {
   background-color: var(--color-ctp-base);
 }
