@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useState, useRef } from 'react'
+import { useTailwindBreakpoints } from './hooks/useMediaQuery';
 
 type State = 'IDLE' | 'PLAYING' | 'SHOW';
+type Module = 'BALL' | 'TABLE' | 'HISTORY';
 
 function App() {
   const [numbers, setNumbers] = useState<number[]>(Array.from({ length: 90 }, (_, i) => i + 1));
   const [randomNumber, setRandomNumber] = useState<number | string>('!');
   const [state, setState] = useState<State>('IDLE');
+  const [module, setModule] = useState<Module>('BALL');
+  const { isMd } = useTailwindBreakpoints();
 
   // TODO: Delete Hack
   const hack = true;
@@ -72,12 +76,12 @@ function App() {
   }, [state, selectRandomNumber]);
 
   return (
-    <div className="bg-ctp-base flex flex-row justify-center items-center p-8 gap-20 w-full h-full min-h-screen">
+    <div className="bg-ctp-base flex flex-col md:flex-row justify-center items-center p-2 md:p-8 gap-20 w-full h-dvh">
       <div className="absolute text-md font-mono text-ctp-subtext0 right-4 bottom-2">v{__APP_VERSION__}</div>
-      <div className='flex flex-col gap-8 items-center'>
-        <h1 className='text-ctp-lavender text-6xl font-bold'>BINGO</h1>
+      {(isMd || (!isMd && module === 'BALL')) && <div className='flex flex-col gap-8 items-center'>
+        <h1 className='text-ctp-lavender text-5xl md:text-6xl font-bold'>BINGO</h1>
         <div className={`
-      flex w-40 h-40 bg-ctp-surface0 rounded-full leading-none text-6xl font-bold text-ctp-lavender justify-center items-center
+      flex w-30 md:w-40 h-30 md:h-40 bg-ctp-surface0 rounded-full leading-none text-6xl font-bold text-ctp-lavender justify-center items-center
       cursor-pointer hover:bg-ctp-surface1 border-4 select-none
       ${state === 'IDLE'
             ? 'border-ctp-peach'
@@ -90,24 +94,24 @@ function App() {
           }}>
           {randomNumber}
         </div>
-      </div>
-      <div className='grid grid-cols-10 text-ctp-text gap-4 bg-ctp-mantle p-6 rounded-4xl w-200 h-200'>
+      </div>}
+      {(isMd || (!isMd && module === 'TABLE')) && <div className='grid grid-cols-10 text-ctp-text gap-2 md:gap-4 bg-ctp-mantle p-3 md:p-6 rounded-2xl md:rounded-4xl w-full md:w-200 h-[60%] md:h-full'>
         {Array.from({ length: 90 }, (_, index) => index)
           .map((i) =>
             <div key={i} className={
-              `flex rounded-full text-xl select-none
+              `flex rounded-full text-sm md:text-xl select-none shrink-0
               ${numbers.includes(i + 1)
                 ? 'bg-ctp-surface0/30 text-ctp-subtext0/25'
                 : 'bg-ctp-surface0 text-ctp-text'
               }
               ${randomNumber === i + 1 && state === 'SHOW'
-                ? 'border-3 border-ctp-lavender'
+                ? 'border-2 md:border-3 border-ctp-lavender'
                 : ''}
-              leading-none w-16 h-16 justify-center items-center font-bold`
+              leading-none w-7 md:w-16 h-7 md:h-16 justify-center items-center font-bold`
             }>{i + 1}</div>
           )}
-      </div>
-      <div className='flex flex-col bg-ctp-mantle p-8 rounded-4xl h-200 w-40 overflow-y-auto gap-4 items-center'>
+      </div>}
+      {(isMd || (!isMd && module === 'HISTORY')) && <div className='flex flex-col bg-ctp-mantle p-9 rounded-4xl  md:h-full w-40 overflow-y-auto gap-4 items-center'>
         {history.map(e => <div
           className={`
             flex rounded-full text-ctp-subtext0 shrink-0 w-14 h-14 text-xl bg-ctp-surface0 leading-none justify-center items-center font-bold
@@ -116,7 +120,12 @@ function App() {
               : ''}
             `}
           key={e}>{e}</div>)}
-      </div>
+      </div>}
+      {!isMd && <div className='flex bg-ctp-mantle p-6 rounded-3xl text-ctp-text gap-6 text-xl font-bold items-center'>
+        <span className='bg-ctp-surface0 p-2 rounded-2xl' onClick={() => setModule('BALL')}>BALL</span>
+        <span className='bg-ctp-surface0 p-2 rounded-2xl' onClick={() => setModule('TABLE')}>TABLE</span>
+        <span className='bg-ctp-surface0 p-2 rounded-2xl' onClick={() => setModule('HISTORY')}>HIST</span>
+      </div>}
     </div >
   )
 }
