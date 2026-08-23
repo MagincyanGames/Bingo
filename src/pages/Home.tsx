@@ -131,8 +131,8 @@ export default function Home() {
         <SettingsModule
         />}
       {(isMd && module === 'SETTINGS') &&
-        <div className="absolute flex justify-center items-center h-dvh w-dvw bg-ctp-crust/50">
-          <div className="relative bg-ctp-surface0 w-[70%] h-[70%] rounded-4xl justify-center items-center flex flex-col gap-4">
+        <div className="absolute flex justify-center items-center h-dvh w-dvw bg-ctp-crust/50" onClick={() => setModule('BALL')}>
+          <div className="relative bg-ctp-surface0 w-[70%] h-[70%] rounded-4xl justify-center items-center flex flex-col gap-4" onClick={(e) => e.stopPropagation()}>
             <button
               className="absolute top-6 right-6 
               material-symbols-outlined cursor-pointer rounded-full bg-ctp-lavender hover:bg-ctp-lavender-800 p-3 text-ctp-base font-extrabold!"

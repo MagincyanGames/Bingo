@@ -3,6 +3,7 @@ import { useTailwindBreakpoints } from "../hooks/useMediaQuery";
 import type { Module } from "../pages/Home";
 import { PageContext, type Settings } from "./ModuleContext";
 import { useLocation, useNavigate } from "react-router";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 type PageProps = {
   children: ReactNode,
@@ -11,12 +12,14 @@ type PageProps = {
 export default function Page({ children }: PageProps) {
   const { isMd } = useTailwindBreakpoints();
   const [module, setModule] = useState<Module>('BALL');
-  const [settings, setSettings] = useState<Settings>({
+  const [settings, setSettings] = useLocalStorage<Settings>('settings', {
     tts: false,
   });
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
+
+
 
   function changeModule(module: Module) {
 
