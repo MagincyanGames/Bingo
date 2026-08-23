@@ -11,6 +11,8 @@ export interface PageContextType {
 
 export interface Settings {
   tts: boolean,
+  ballPlayingSpeed: number,
+  ballPlayingTime: number,
 }
 
 export const PageContext = createContext<PageContextType | undefined>(undefined);

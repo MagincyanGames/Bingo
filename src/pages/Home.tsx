@@ -5,15 +5,20 @@ import { HistoryModule } from './HomeModules/History';
 import TableModule from './HomeModules/Table';
 import { BallModule } from './HomeModules/Ball';
 import SettingsModule from './HomeModules/Settings';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 export type State = 'IDLE' | 'PLAYING' | 'SHOW';
 
 
 export type Module = 'BALL' | 'TABLE' | 'HISTORY' | 'SETTINGS';
 export default function Home() {
-  const [numbers, setNumbers] = useState<number[]>(Array.from({ length: 90 }, (_, i) => i + 1));
-  const [randomNumber, setRandomNumber] = useState<number | string>('!');
-  const [state, setState] = useState<State>('IDLE');
+
+
+  const fullNums = Array.from({ length: 90 }, (_, i) => i + 1)
+  const [numbers, setNumbers] = useLocalStorage<number[]>('balls', fullNums);
+  const [history, setHistory] = useLocalStorage<number[]>('h-balls', []);
+  const [randomNumber, setRandomNumber] = useState<number | string>(history[0]);
+  const [state, setState] = useState<State>(history[0] ? 'SHOW' : 'IDLE');
   const { isMd } = useTailwindBreakpoints();
   const { module, setModule, settings } = usePage();
 
@@ -21,7 +26,6 @@ export default function Home() {
   const hack = true;
   const hackNums = useRef<number[]>([1, 9, 20, 27, 32, 43, 45, 50, 51, 53, 60, 61, 74, 84, 86]);
 
-  const [history, setHistory] = useState<number[]>([]);
 
   const speak = useCallback((text: string) => {
     console.log('tts', settings.tts)
@@ -37,7 +41,7 @@ export default function Home() {
   }, [settings])
 
   const selectRandomNumber = useCallback((last: boolean = false) => {
-    setNumbers((prevNumbers) => {
+    setNumbers((prevNumbers: number[]) => {
       if (prevNumbers.length === 0) return prevNumbers;
 
       let randomIndex = Math.floor(Math.random() * prevNumbers.length);
@@ -88,13 +92,13 @@ export default function Home() {
     if (state === 'PLAYING') {
       const int = setInterval(() => {
         selectRandomNumber();
-      }, 50);
+      }, settings.ballPlayingSpeed);
 
       const timeout = setTimeout(() => {
         clearInterval(int);
         selectRandomNumber(true);
         setState('SHOW');
-      }, 2000);
+      }, settings.ballPlayingTime);
 
       return () => {
         clearInterval(int);
@@ -131,7 +135,7 @@ export default function Home() {
         <SettingsModule
         />}
       {(isMd && module === 'SETTINGS') &&
-        <div className="absolute flex justify-center items-center h-dvh w-dvw bg-ctp-crust/50" onClick={() => setModule('BALL')}>
+        <div className="absolute flex justify-center items-center h-dvh w-dvw bg-ctp-crust/50 top-0" onClick={() => setModule('BALL')}>
           <div className="relative bg-ctp-surface0 w-[70%] h-[70%] rounded-4xl justify-center items-center flex flex-col gap-4" onClick={(e) => e.stopPropagation()}>
             <button
               className="absolute top-6 right-6 

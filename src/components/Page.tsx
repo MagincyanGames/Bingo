@@ -14,12 +14,12 @@ export default function Page({ children }: PageProps) {
   const [module, setModule] = useState<Module>('BALL');
   const [settings, setSettings] = useLocalStorage<Settings>('settings', {
     tts: false,
+    ballPlayingSpeed: 50,
+    ballPlayingTime: 2000,
   });
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
-
-
 
   function changeModule(module: Module) {
 
@@ -32,7 +32,7 @@ export default function Page({ children }: PageProps) {
   return <PageContext.Provider value={{ module, setModule, settings, setSettings }}>
     <div className={`bg-ctp-base flex flex-col
      p-8 w-dvw h-dvh gap-8`}>
-      <div className='flex flex-1 w-full h-full '>
+      <div className='flex flex-1 w-full min-h-0'>
         {children}
       </div>
       {!isMd && <div className='flex bg-ctp-mantle p-5 rounded-4xl text-ctp-text gap-5 text-5xl font-bold justify-center'>
