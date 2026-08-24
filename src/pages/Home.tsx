@@ -22,11 +22,6 @@ export default function Home() {
   const { isMd } = useTailwindBreakpoints();
   const { module, settings } = usePage();
 
-  // TODO: Delete Hack
-  const hack = true;
-  const hackNums = useRef<number[]>([1, 9, 20, 27, 32, 43, 45, 50, 51, 53, 60, 61, 74, 84, 86]);
-
-
   const speak = useCallback((text: string) => {
     console.log('tts', settings.tts)
     if (!settings.tts) return;
@@ -44,22 +39,13 @@ export default function Home() {
     setNumbers((prevNumbers: number[]) => {
       if (prevNumbers.length === 0) return prevNumbers;
 
-      let randomIndex = Math.floor(Math.random() * prevNumbers.length);
-
-      if (last && hack && hackNums.current.length > 0 && prevNumbers.length % 7 === 0) {
-        const hackResponse = hackNums.current[Math.floor(Math.random() * hackNums.current.length)];
-
-        if (prevNumbers.includes(hackResponse)) {
-          randomIndex = prevNumbers.indexOf(hackResponse);
-        }
-      }
+      const randomIndex = Math.floor(Math.random() * prevNumbers.length);
 
       const pickedNumber = prevNumbers[randomIndex];
 
       setRandomNumber(pickedNumber);
 
       if (last) {
-        hackNums.current = hackNums.current.filter(i => i !== pickedNumber);
         setHistory(prev => [pickedNumber, ...prev]);
 
         speak(`Ha salido el número ${pickedNumber}, ${pickedNumber.toString().length > 1 ? `${pickedNumber.toString()[0]}, ${pickedNumber.toString()[1]}` : ''}`);
@@ -69,7 +55,7 @@ export default function Home() {
 
       return prevNumbers;
     });
-  }, [speak, hack]);
+  }, [speak]);
 
   useEffect(() => {
     if (settings.tts)
