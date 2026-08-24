@@ -38,7 +38,7 @@ export default function Home() {
     utterance.rate = 0.75;
 
     window.speechSynthesis.speak(utterance);
-  }, [settings])
+  }, [])
 
   const selectRandomNumber = useCallback((last: boolean = false) => {
     setNumbers((prevNumbers: number[]) => {
@@ -106,7 +106,6 @@ export default function Home() {
       };
     }
   }, [state, selectRandomNumber]);
-
 
 
   return (
