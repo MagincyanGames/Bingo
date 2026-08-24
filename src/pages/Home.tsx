@@ -20,7 +20,7 @@ export default function Home() {
   const [randomNumber, setRandomNumber] = useState<number | string>(history[0] ?? '!');
   const [state, setState] = useState<State>(history[0] ? 'SHOW' : 'IDLE');
   const { isMd } = useTailwindBreakpoints();
-  const { module, setModule, settings } = usePage();
+  const { module, settings } = usePage();
 
   // TODO: Delete Hack
   const hack = true;
