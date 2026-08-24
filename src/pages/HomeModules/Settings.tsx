@@ -1,8 +1,6 @@
 import { useState } from "react";
-import type { Settings } from "../../components/ModuleContext";
 import Title from "../../components/Title";
 import { usePage } from "../../hooks/usePage";
-import { useNavigate } from "react-router";
 
 interface SettingsEntryProps {
   title: string;
@@ -64,7 +62,6 @@ export function SettingsEntry({ title, description, type, warning, value, onClic
 export default function SettingsModule() {
   const { settings, setSettings } = usePage();
   const [deleteSelected, setDeleteSelected] = useState(false);
-  const navigate = useNavigate()
 
   return <div className="h-full w-full flex flex-col gap-6 items-center justify-center">
     <Title text='Settings' />
