@@ -4,9 +4,11 @@ import { createHashRouter, RouterProvider } from 'react-router'
 import Home from './pages/Home'
 import '@fontsource-variable/material-symbols-outlined';
 import Page from './components/Page'
+import Board from './pages/Board';
 
 const router = createHashRouter([
   { path: '/', element: <Page><Home /></Page> },
+  { path: '/g', element: <Page><Board /></Page> },
 ])
 
 export function App() {
