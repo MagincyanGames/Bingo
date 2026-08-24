@@ -17,7 +17,7 @@ export default function Home() {
   const fullNums = Array.from({ length: 90 }, (_, i) => i + 1)
   const [numbers, setNumbers] = useLocalStorage<number[]>('balls', fullNums);
   const [history, setHistory] = useLocalStorage<number[]>('h-balls', []);
-  const [randomNumber, setRandomNumber] = useState<number | string>(history[0]);
+  const [randomNumber, setRandomNumber] = useState<number | string>(history[0] ?? '!');
   const [state, setState] = useState<State>(history[0] ? 'SHOW' : 'IDLE');
   const { isMd } = useTailwindBreakpoints();
   const { module, setModule, settings } = usePage();
@@ -38,7 +38,7 @@ export default function Home() {
     utterance.rate = 0.75;
 
     window.speechSynthesis.speak(utterance);
-  }, [])
+  }, [settings])
 
   const selectRandomNumber = useCallback((last: boolean = false) => {
     setNumbers((prevNumbers: number[]) => {
@@ -114,8 +114,12 @@ export default function Home() {
       {(isMd || (!isMd && module === 'BALL')) &&
         <BallModule
           randomNumber={randomNumber}
+          setRandomNumber={setRandomNumber}
           state={state}
           setState={setState}
+          fullNums={fullNums}
+          setNumbers={setNumbers}
+          setHistory={setHistory}
         />}
       {(isMd || (!isMd && module === 'TABLE')) &&
         <TableModule
@@ -133,19 +137,6 @@ export default function Home() {
       {(!isMd && module === 'SETTINGS') &&
         <SettingsModule
         />}
-      {(isMd && module === 'SETTINGS') &&
-        <div className="absolute flex justify-center items-center h-dvh w-dvw bg-ctp-crust/50 top-0" onClick={() => setModule('BALL')}>
-          <div className="relative bg-ctp-surface0 w-[70%] h-[70%] rounded-4xl justify-center items-center flex flex-col gap-4" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="absolute top-6 right-6 
-              material-symbols-outlined cursor-pointer rounded-full bg-ctp-lavender hover:bg-ctp-lavender-800 p-3 text-ctp-base font-extrabold!"
-              onClick={() => setModule('BALL')}
-            >
-              close
-            </button>
-            <SettingsModule />
-          </div>
-        </div>}
     </div >
   )
 }

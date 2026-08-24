@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, type ReactNode } from "react";
 import type { Module } from "../pages/Home";
 
 export interface PageContextType {
@@ -6,7 +6,8 @@ export interface PageContextType {
   setModule: React.Dispatch<React.SetStateAction<Module>>;
   settings: Settings;
   setSettings: React.Dispatch<React.SetStateAction<Settings>>;
-
+  modal: ReactNode;
+  setModal: React.Dispatch<React.SetStateAction<ReactNode>>;
 }
 
 export interface Settings {

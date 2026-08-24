@@ -1,6 +1,7 @@
 import { usePage } from "../../hooks/usePage";
 import { useTailwindBreakpoints } from "../../hooks/useMediaQuery";
 import type { State } from "../Home"
+import SettingsModule from "./Settings";
 
 type HistoryModuleProps = {
   history: number[],
@@ -10,7 +11,7 @@ type HistoryModuleProps = {
 
 export function HistoryModule({ history, randomNumber, state }: HistoryModuleProps) {
   const { isMd } = useTailwindBreakpoints();
-  const { setModule } = usePage();
+  const { setModule, setModal } = usePage();
 
   return <div className='flex flex-col h-[97%] gap-4'>
     <div className='flex-1 grid grid-cols-2 justify-center content-start justify-items-center bg-ctp-mantle p-9 rounded-4xl w-60 overflow-y-auto gap-4 '>
@@ -28,7 +29,7 @@ export function HistoryModule({ history, randomNumber, state }: HistoryModulePro
     {isMd && <div className='flex flex-row justify-center bg-ctp-surface0 w-full rounded-4xl p-4'>
       <span className='material-symbols-outlined text-3xl! text-ctp-text 
             bg-ctp-surface1 hover:bg-ctp-surface2 
-            p-2 leading-none rounded-full select-none cursor-pointer' onClick={() => setModule('SETTINGS')}>
+            p-2 leading-none rounded-full select-none cursor-pointer' onClick={() => { setModule('SETTINGS'); setModal(<SettingsModule />) }}>
         settings
       </span>
     </div>}

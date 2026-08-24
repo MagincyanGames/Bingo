@@ -91,9 +91,9 @@ export default function SettingsModule() {
           }
         } />
       <SettingsEntry
-        title="Ball Playing Speed"
+        title="Ball Playing Time"
         type="NUM"
-        description="Indicates the time between 2 random numbers in the playing state"
+        description="Total time when the random number is loading."
         value={settings.ballPlayingTime}
         warning="NONE"
         info={{ min: 0, max: 5000 }}
